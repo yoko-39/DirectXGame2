@@ -2,6 +2,7 @@
 #include "TextureManager.h"
 #include <cassert>
 #include "MathUtilityForText.h"
+#include "time.h"
 
 GameScene::GameScene() {}
 
@@ -10,7 +11,8 @@ GameScene::~GameScene()
 	delete spriteBG_; 
 	delete modelStage_;
 	delete modelPlayer_;
-	//delete modelBeam_;
+	delete modelBeam_;
+	delete modelEnemy_;
 	
 
 }
@@ -58,6 +60,15 @@ void GameScene::Initialize() {
 	modelBeam_ = Model::Create();
 	worldTransformBeam_.scale_ = { 0.3f, 0.3f, 0.3f };
 	worldTransformBeam_.Initialize();
+
+	// 敵
+	textureHandEnemy_ = TextureManager::Load("enemy.png");
+	modelEnemy_ = Model::Create();
+	worldTransformEnemy_.scale_ = {0.5f, 0.5f, 0.5f};
+	worldTransformEnemy_.Initialize();
+
+	//乱数調整
+	srand((unsigned int)time(NULL));
 }
 
 void GameScene::PlayerUpdate() {
@@ -126,15 +137,54 @@ void GameScene::BeamBorn()
 			worldTransformBeam_.translation_.x = worldTransformPlayer_.translation_.x;
 			worldTransformBeam_.translation_.y = worldTransformPlayer_.translation_.y;
 			worldTransformBeam_.translation_.z = worldTransformPlayer_.translation_.z;
-		    beamflag = 1;
+		    beamflag= 1;
 		}
 	}
 }
 
+void GameScene::EnemyUpdate() 
+{
+	EnemyMove();
+	EnemyBorn();
+	// 変換行列を更新
+	worldTransformEnemy_.matWorld_ = MakeAffineMatrix(
+	    worldTransformEnemy_.scale_, worldTransformEnemy_.rotation_,
+	    worldTransformEnemy_.translation_);
+
+	// 変更行列を定数バッファーに転送
+	worldTransformEnemy_.TransferMatrix();
+}
+
+void GameScene::EnemyBorn() {
+	if (enemyflag == 0) {
+		enemyflag = 1;
+		worldTransformEnemy_.translation_.z = 40.0f;
+
+		
+			int x = rand() % 80;
+			float x2 = (float)x / 10 + -4;
+			worldTransformEnemy_.translation_.x = x2;
+		
+	}
+
+}
+void GameScene::EnemyMove() 
+{ 
+         
+	if (enemyflag == 1) {
+	    worldTransformEnemy_.translation_.z -= 0.5f;
+		worldTransformEnemy_.rotation_.x -= 0.1f;
+	}
+
+	if (worldTransformEnemy_.translation_.z < -5.0f) {
+		enemyflag = 0;
+	}
+}
 
 void GameScene::Update() {
 	PlayerUpdate();
 	BeamUpdate();
+	EnemyUpdate();
     }
 
 void GameScene::Draw() {
@@ -173,6 +223,11 @@ void GameScene::Draw() {
 	//弾
 	if (beamflag == 1) {
 	modelBeam_->Draw(worldTransformBeam_, viewProjection_, textureHandleBeam_); 
+	}
+
+	// 敵
+	if (enemyflag == 1) {
+	modelEnemy_->Draw(worldTransformEnemy_, viewProjection_, textureHandEnemy_);
 	}
 
 	// 3Dオブジェクト描画後処理

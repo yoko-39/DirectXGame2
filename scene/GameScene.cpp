@@ -69,8 +69,14 @@ void GameScene::Initialize() {
 
 	//乱数調整
 	srand((unsigned int)time(NULL));
+
+	//デバッグテキスト
+	debugText_ = DebugText::GetInstance();
+	debugText_->Initialize();
 }
 
+
+//プレイヤー
 void GameScene::PlayerUpdate() {
 
 	//移動
@@ -100,6 +106,7 @@ void GameScene::PlayerUpdate() {
 	}
 }
 
+//ビーム
 void GameScene::BeamUpdate()
 {
 	//移動
@@ -119,29 +126,30 @@ void GameScene::BeamUpdate()
 
 void GameScene::BeamMove()
 {
-	if (beamflag == 1) {
+	if (beamFlag_ == 1) {
 	    worldTransformBeam_.translation_.z += 1;
 		worldTransformBeam_.rotation_.x += 0.1f;
 	}
 
 	if (worldTransformBeam_.translation_.z > 40) {
 
-	beamflag = 0;
+	beamFlag_ = 0;
 	}
 }
 void GameScene::BeamBorn()
 {
-	if (beamflag == 0) {
+	if (beamFlag_ == 0) {
 
 		if (input_->PushKey(DIK_SPACE)) {
 			worldTransformBeam_.translation_.x = worldTransformPlayer_.translation_.x;
 			worldTransformBeam_.translation_.y = worldTransformPlayer_.translation_.y;
 			worldTransformBeam_.translation_.z = worldTransformPlayer_.translation_.z;
-		    beamflag= 1;
+		    beamFlag_= 1;
 		}
 	}
 }
 
+//敵
 void GameScene::EnemyUpdate() 
 {
 	EnemyMove();
@@ -156,8 +164,8 @@ void GameScene::EnemyUpdate()
 }
 
 void GameScene::EnemyBorn() {
-	if (enemyflag == 0) {
-		enemyflag = 1;
+	if (enemyFlag_ == 0) {
+		enemyFlag_ = 1;
 		worldTransformEnemy_.translation_.z = 40.0f;
 
 		
@@ -171,13 +179,54 @@ void GameScene::EnemyBorn() {
 void GameScene::EnemyMove() 
 { 
          
-	if (enemyflag == 1) {
+	if (enemyFlag_ == 1) {
 	    worldTransformEnemy_.translation_.z -= 0.5f;
 		worldTransformEnemy_.rotation_.x -= 0.1f;
 	}
 
 	if (worldTransformEnemy_.translation_.z < -5.0f) {
-		enemyflag = 0;
+		enemyFlag_ = 0;
+	}
+}
+
+
+//衝突判定
+void GameScene::Collision() 
+{
+	//衝突判定（プレイヤーと敵）
+	CollisionPlayerEnemy();
+	//衝突判定 (弾と敵)
+	CollisionBeamEnemy();
+	
+}
+
+void GameScene::CollisionPlayerEnemy() 
+{
+ //敵が存在すれば
+	if (enemyFlag_ == 1) {
+		float dx = abs(worldTransformPlayer_.translation_.x - worldTransformEnemy_.translation_.x);
+		float dz = abs(worldTransformPlayer_.translation_.z - worldTransformEnemy_.translation_.z);
+
+	//衝突したら
+		if (dx < 1 && dz < 1) {
+			playerLife_ -= 1;
+			// 存在しない
+			enemyFlag_ = 0;
+		}
+	}
+}
+
+void GameScene::CollisionBeamEnemy() 
+{ 
+	if (enemyFlag_ == 1 && beamFlag_ == 1) {
+		float dx1 = abs(worldTransformBeam_.translation_.x - worldTransformEnemy_.translation_.x);
+		float dz1 = abs(worldTransformBeam_.translation_.z - worldTransformEnemy_.translation_.z);
+
+		if (dx1 < 1 && dz1 < 1) {
+			enemyFlag_ = 0;
+			beamFlag_ = 0;
+			gameScore_ += 100;
+		}
 	}
 }
 
@@ -185,6 +234,7 @@ void GameScene::Update() {
 	PlayerUpdate();
 	BeamUpdate();
 	EnemyUpdate();
+	Collision();
     }
 
 void GameScene::Draw() {
@@ -218,15 +268,17 @@ void GameScene::Draw() {
 	modelStage_->Draw(worldTransformStage_, viewProjection_, textureHandleStage_);
 	
 	//プレイヤー
+	if (playerLife_ > 0) {
 	modelPlayer_->Draw(worldTransformPlayer_, viewProjection_, textureHandlePlayer_);
+	}
 
 	//弾
-	if (beamflag == 1) {
+	if (beamFlag_ == 1) {
 	modelBeam_->Draw(worldTransformBeam_, viewProjection_, textureHandleBeam_); 
 	}
 
 	// 敵
-	if (enemyflag == 1) {
+	if (enemyFlag_ == 1) {
 	modelEnemy_->Draw(worldTransformEnemy_, viewProjection_, textureHandEnemy_);
 	}
 
@@ -242,6 +294,16 @@ void GameScene::Draw() {
 	/// ここに前景スプライトの描画処理を追加できる
 	/// </summary>
 
+
+	//ゲームスコア
+	char str[100];
+	sprintf_s(str, "score %d", gameScore_);
+	debugText_->Print(str, 200, 10, 2);
+
+	sprintf_s(str, "Life %d", playerLife_);
+	debugText_->Print(str, 800, 10, 2);
+
+	debugText_->DrawAll();
 	// スプライト描画後処理
 	Sprite::PostDraw();
 

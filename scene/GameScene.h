@@ -8,7 +8,7 @@
 #include "Sprite.h"
 #include "ViewProjection.h"
 #include "WorldTransform.h"
-
+#include "DebugText.h"
 /// <summary>
 /// ゲームシーン
 /// </summary>
@@ -75,6 +75,21 @@ public: // メンバ関数
    /// </summary>
 	void EnemyBorn();
 
+   /// <summary>
+   ///衝突判定 
+   /// </summary>
+	void Collision();
+
+   /// <summary>
+   /// 衝突判定（プレイヤーと敵)
+   /// </summary>
+	void CollisionPlayerEnemy();
+
+    /// <summary>
+    /// 衝突判定(ビームとの)
+    /// </summary>
+    void CollisionBeamEnemy();
+
 private: // メンバ変数
 	DirectXCommon* dxCommon_ = nullptr;
 	Input* input_ = nullptr;
@@ -106,12 +121,17 @@ private: // メンバ変数
 	uint32_t textureHandleBeam_ = 0;
 	Model* modelBeam_ = nullptr;
 	WorldTransform worldTransformBeam_;
-	int beamflag = 0;
+	int beamFlag_ = 0;
 
 	//敵
 	uint32_t textureHandEnemy_ = 0;
 	Model* modelEnemy_ = nullptr;
 	WorldTransform worldTransformEnemy_;
-	int enemyflag = 0;
+	int enemyFlag_ = 0;
 
+	DebugText* debugText_ = nullptr;
+	//ゲームスコア
+	int gameScore_ = 0;
+	//プレイヤーライフ
+	int playerLife_ = 3;
 };

@@ -90,6 +90,7 @@ public: // メンバ関数
     /// </summary>
     void CollisionBeamEnemy();
 
+	private:
     /// <summary>
     ///  ゲームプレイ更新
     /// </summary>
@@ -105,10 +106,30 @@ public: // メンバ関数
     /// </summary>
 	void GamePlayDraw2DBack();
 
-	 /// <summary>
+	/// <summary>
     ///  ゲームプレイ近景2D表示
     /// </summary>
 	void GamePlayDraw2DNear();
+
+	/// <summary>
+    /// タイトル更新
+    /// </summary>
+	void TitleUpdate();
+
+	/// <summary>
+    ///  タイトル2D
+    /// </summary>
+	void TitleDraw2DNear();
+
+   /// <summary>
+   /// 
+   /// </summary>
+	void GameOverDraw2DNear();
+
+   /// <summary>
+   /// 
+   /// </summary>
+	void GamePlayStart();
 
 private: // メンバ変数
 	DirectXCommon* dxCommon_ = nullptr;
@@ -156,5 +177,17 @@ private: // メンバ変数
 	int playerLife_ = 3;
 
 	//シーンモード(0:ゲームプレイ 1:タイトル)
-	int sceneMode_ = 0;
+	int sceneMode_ = 1;
+
+	//タイトル
+	uint32_t textureHandleTitle_ = 0;
+	Sprite* spriteTitle_ = nullptr;
+	int gameTimer_ = 0;
+	//エンター
+	uint32_t textureHandleEnter_ = 0;
+	Sprite* spriteEnter_ = nullptr;
+	//ゲームオーバー
+	uint32_t textureHandleOver_ = 0;
+	Sprite* spriteOver_ = nullptr;
+
 };

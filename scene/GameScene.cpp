@@ -208,9 +208,9 @@ void GameScene::EnemyBorn() {
 				worldTransformEnemy_[i].translation_.x = x2;
 
 				if (rand() % 2 == 0) {
-					enemyspeed_[i] = 0.1f;
+					enemySpeed_[i] = 0.1f;
 				} else {
-					enemyspeed_[i] = -0.1f;
+					enemySpeed_[i] = -0.1f;
 				}
 
 				break;
@@ -225,7 +225,7 @@ void GameScene::EnemyMove()
     for (int i = 0; i < 10; i++) {
 		
 		if (enemyFlag_[i] == 1) {
-			worldTransformEnemy_[i].translation_.x += enemyspeed_[i];
+			worldTransformEnemy_[i].translation_.x += enemySpeed_[i];
 			worldTransformEnemy_[i].translation_.z -= 0.5f;
 			worldTransformEnemy_[i].rotation_.x -= 0.1f;
 		}
@@ -234,10 +234,10 @@ void GameScene::EnemyMove()
 		}
 
 		if (worldTransformEnemy_[i].translation_.x > 4) {
-			enemyspeed_[i] *= -1.0f; 
+			enemySpeed_[i] *= -1.0f; 
 		}
 		if (worldTransformEnemy_[i].translation_.x < -4) {
-			enemyspeed_[i] *= -1.0f; 
+			enemySpeed_[i] *= -1.0f; 
 		}
 
 	}

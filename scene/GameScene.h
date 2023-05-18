@@ -169,7 +169,7 @@ private: // メンバ変数
 	Model* modelEnemy_ = nullptr;
 	WorldTransform worldTransformEnemy_[10];
 	int enemyFlag_[10] = {};
-	float enemyspeed_[10] = {}; 
+	float enemySpeed_[10] = {}; 
 
 
 

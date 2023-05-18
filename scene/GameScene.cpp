@@ -24,6 +24,7 @@ void GameScene::Initialize() {
 	dxCommon_ = DirectXCommon::GetInstance();
 	input_ = Input::GetInstance();
 	audio_ = Audio::GetInstance();
+	audio_->Initialize();
 
 	//BG(2Dスプライト)
 	textureHandleBG_ = TextureManager::Load("bg.jpg");
@@ -88,6 +89,34 @@ void GameScene::Initialize() {
 	//ゲームオーバー
 	textureHandleOver_ = TextureManager::Load("gameover.png");
 	spriteOver_ = Sprite::Create(textureHandleOver_, {0, 0});
+
+   //サウンドデータの読み込み
+	soundDateHandleTitleBGM_ = audio_->LoadWave("Ring05.wav");
+	soundDateHandleGamePlayBGM_ = audio_->LoadWave("Ring08.wav");
+	soundDateHandleGameOverBGM_ = audio_->LoadWave("Ring09.wav");
+	soundDateHandleEnemyHitSE_ = audio_->LoadWave("chord.wav");
+	soundDateHandlePlayerHitSE_ = audio_->LoadWave("tada.wav");
+
+	//タイトルBGMを再生
+	voiceHandleBGM_ = audio_->PlayWave(soundDateHandleTitleBGM_, true);
+}
+    //**************************************************
+//タイトル
+//**************************************************
+//タイトル更新
+void GameScene::TitleUpdate() 
+{ 
+	//エンターキーを押した瞬間
+	if (input_->TriggerKey(DIK_RETURN))
+	{
+		GamePlayStart();
+		//モードをゲームプレイに変更
+		sceneMode_ = 0;
+
+		//BGM切り替え
+		audio_->StopWave(voiceHandleBGM_);//現在のBGMを停止
+		voiceHandleBGM_ = audio_->PlayWave(soundDateHandleGamePlayBGM_, true); //ゲームプレイBGMを再生
+	}
 }
 
 
@@ -122,6 +151,9 @@ void GameScene::PlayerUpdate() {
 	
 	if (playerLife_ <= 0) {
 		sceneMode_ = 2;
+		audio_->StopWave(voiceHandleBGM_);
+		voiceHandleBGM_ = audio_->PlayWave(soundDateHandleGameOverBGM_, true);
+		
 	}
 }
 
@@ -187,7 +219,8 @@ void GameScene::EnemyUpdate()
 	// 変換行列を更新
 	for (int i = 0; i < 10; i++) {
 		worldTransformEnemy_[i].matWorld_ = MakeAffineMatrix(
-		    worldTransformEnemy_[i].scale_, worldTransformEnemy_[i].rotation_,
+		    worldTransformEnemy_[i].scale_, 
+			worldTransformEnemy_[i].rotation_,
 		    worldTransformEnemy_[i].translation_);
 
 		// 変更行列を定数バッファーに転送
@@ -197,7 +230,7 @@ void GameScene::EnemyUpdate()
 
 
 void GameScene::EnemyBorn() {
-	if (rand() % 10 == 0) {
+	if (rand() % 12 == 0) {
 		for (int i = 0; i < 10; i++) {
 			if (enemyFlag_[i] == 0) {
 				enemyFlag_[i] = 1;
@@ -269,6 +302,9 @@ void GameScene::CollisionPlayerEnemy()
 				playerLife_ -= 1;
 				// 存在しない
 				enemyFlag_[i] = 0;
+
+				//プレイヤ―ヒットSE
+				audio_->PlayWave(soundDateHandlePlayerHitSE_);
 			}
 		}
 	}
@@ -287,6 +323,8 @@ void GameScene::CollisionBeamEnemy() {
 					enemyFlag_[i] = 0;
 					beamFlag_[j] = 0;
 					gameScore_ += 100;
+					audio_->PlayWave(soundDateHandleEnemyHitSE_);
+
 				}
 			}
 		}
@@ -308,7 +346,11 @@ void GameScene::CollisionBeamEnemy() {
 		break;
     case 2:
 		gameTimer_ += 1;
+		
+
 		if (input_->TriggerKey(DIK_RETURN)) {
+			audio_->StopWave(voiceHandleBGM_);
+			voiceHandleBGM_ = audio_->PlayWave(soundDateHandleTitleBGM_, true);
 			sceneMode_ = 1;
 		}
 	}
@@ -341,20 +383,7 @@ void GameScene::GamePlayStart() {
 			// 変更行列を定数バッファーに転送
 			worldTransformPlayer_.TransferMatrix();
 		}
-	}
-}
-    //**************************************************
-//タイトル
-//**************************************************
-//タイトル更新
-void GameScene::TitleUpdate() 
-{ 
-	//エンターキーを押した瞬間
-	if (input_->TriggerKey(DIK_RETURN))
-	{
-		GamePlayStart();
-		//モードをゲームプレイに変更
-		sceneMode_ = 0;
+
 	}
 }
 

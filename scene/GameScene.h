@@ -161,14 +161,17 @@ private: // メンバ変数
 	//ビーム
 	uint32_t textureHandleBeam_ = 0;
 	Model* modelBeam_ = nullptr;
-	WorldTransform worldTransformBeam_;
-	int beamFlag_ = 0;
-
+	WorldTransform worldTransformBeam_[5];
+	int beamFlag_[10] = {};
+	int beamTimer_ = 0;
 	//敵
 	uint32_t textureHandEnemy_ = 0;
 	Model* modelEnemy_ = nullptr;
-	WorldTransform worldTransformEnemy_;
-	int enemyFlag_ = 0;
+	WorldTransform worldTransformEnemy_[10];
+	int enemyFlag_[10] = {};
+	float enemyspeed_[10] = {}; 
+
+
 
 	DebugText* debugText_ = nullptr;
 	//ゲームスコア

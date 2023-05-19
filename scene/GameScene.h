@@ -131,6 +131,16 @@ public: // メンバ関数
    /// </summary>
 	void GamePlayStart();
 
+	 /// <summary>
+	///
+	/// </summary>
+	void StageUpdate();
+
+    /// <summary>
+    /// 
+    /// </summary>
+	void EnemyJump();
+
 private: // メンバ変数
 	DirectXCommon* dxCommon_ = nullptr;
 	Input* input_ = nullptr;
@@ -151,7 +161,7 @@ private: // メンバ変数
 	//ステージ
 	uint32_t textureHandleStage_ = 0;
 	Model* modelStage_ = nullptr;
-	WorldTransform worldTransformStage_;
+	WorldTransform worldTransformStage_[20];
 	   
 	//プレイヤー
 	uint32_t  textureHandlePlayer_ = 0;
@@ -200,4 +210,7 @@ private: // メンバ変数
 	uint32_t soundDateHandleEnemyHitSE_ = 0; //敵ヒットSE
 	uint32_t soundDateHandlePlayerHitSE_ = 0; //プレイヤーヒットSE
 	uint32_t voiceHandleBGM_ = 0; //音声再生ハンドル
+
+	//的ジャンプの移動速度
+	float enemyJumpSpeed_[10] = {};
 };

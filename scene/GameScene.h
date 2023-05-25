@@ -141,6 +141,11 @@ public: // メンバ関数
     /// </summary>
 	void EnemyJump();
 
+    /// <summary>
+    /// 
+    /// </summary>
+	void DrawScore();
+
 private: // メンバ変数
 	DirectXCommon* dxCommon_ = nullptr;
 	Input* input_ = nullptr;
@@ -167,6 +172,7 @@ private: // メンバ変数
 	uint32_t  textureHandlePlayer_ = 0;
 	Model* modelPlayer_ = nullptr;
 	WorldTransform worldTransformPlayer_;
+	int playerTimer_ = 0;
 
 	//ビーム
 	uint32_t textureHandleBeam_ = 0;
@@ -213,4 +219,18 @@ private: // メンバ変数
 
 	//的ジャンプの移動速度
 	float enemyJumpSpeed_[10] = {};
+
+	//スコア数値(スプライト)
+	uint32_t textureHandleNumber_= 0;
+	Sprite* spriteNumber_[5] = {};
+
+	//スコア
+	uint32_t textureHandleScore_ = 0;
+	Sprite* spriteScore_ = nullptr;
+	
+	//ライフ
+	uint32_t textureHandleLife_ = 0;
+	Sprite* spriteLife_[3] = {};
+
+
 };

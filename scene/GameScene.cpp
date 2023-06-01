@@ -20,6 +20,8 @@ void GameScene::Initialize() {
 	audio_ = Audio::GetInstance();
 
 	//ビュープロジェクションの初期化
+	viewProjection_.translation_.y = 1;
+	viewProjection_.translation_.z = -0;
 	viewProjection_.Initialize();
 	//各クラスの生成
 	stage_ = new Stage();     //ステージ

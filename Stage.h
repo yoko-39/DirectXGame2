@@ -5,6 +5,7 @@
 #include "Sprite.h" 
 #include "ViewProjection.h"
 #include "WorldTransform.h"
+#include "MathUtilityForText.h"
 
 class Stage
 {

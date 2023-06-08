@@ -12,6 +12,7 @@ GameScene::~GameScene()
    //各クラスの削除
 	delete stage_;   //ステージ
     delete player_;   //プレイヤー 
+	delete beam_;    //ビーム
 }
 
 void GameScene::Initialize() {
@@ -32,6 +33,9 @@ void GameScene::Initialize() {
 	player_ = new Player();   //プレイヤ-
 	player_->Initialize(viewProjection_);
 
+	beam_ = new Beam();      //ビーム
+	beam_->Initialize(viewProjection_, player_);
+	 
 }
 
 void GameScene::Update() 
@@ -39,6 +43,7 @@ void GameScene::Update()
   //各クラスの更新
 	stage_->Update();  // ステージ
 	player_->Update();  //プレイヤー
+	beam_->Update();   //ビーム
 }
 
 void GameScene::Draw() {
@@ -71,6 +76,7 @@ void GameScene::Draw() {
 	/// </summary>
 	stage_->Draw3D();
 	player_->Draw3D();
+	beam_->Draw3D();
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();
 #pragma endregion

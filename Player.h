@@ -21,6 +21,8 @@ public:
 	
 	//更新
 	void Update();
+	//X座標の獲得
+	float GetX() { return worldTransformPlayer_.translation_.x; }
 
 	//3D背景描画
 	void Draw3D();
@@ -36,4 +38,5 @@ public:
 
 	//インプットクラス
 	Input* input_ = nullptr;
+
 };

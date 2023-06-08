@@ -18,7 +18,7 @@ public:
 
 	//初期化
 	void Initialize(ViewProjection viewProjection);
-
+	// ビュープロジェクション(共通)
 	ViewProjection viewProjection_;
 
 	//更新
@@ -31,6 +31,8 @@ public:
 	void Draw3D();
 
 private:
+
+
 	//BG(スプライト)
 	uint32_t textureHandleBG_ = 0;
 	Sprite* spriteBG_ = nullptr;

@@ -10,7 +10,8 @@ GameScene::GameScene()
 GameScene::~GameScene() 
 {
    //各クラスの削除
-	delete stage_;
+	delete stage_;   //ステージ
+    delete player_;   //プレイヤー 
 }
 
 void GameScene::Initialize() {
@@ -28,12 +29,16 @@ void GameScene::Initialize() {
 	//各クラスの初期化
 	stage_->Initialize(viewProjection_);
 
+	player_ = new Player();   //プレイヤ-
+	player_->Initialize(viewProjection_);
+
 }
 
 void GameScene::Update() 
 {
   //各クラスの更新
 	stage_->Update();  // ステージ
+	player_->Update();  //プレイヤー
 }
 
 void GameScene::Draw() {
@@ -65,6 +70,7 @@ void GameScene::Draw() {
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	/// </summary>
 	stage_->Draw3D();
+	player_->Draw3D();
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();
 #pragma endregion

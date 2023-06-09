@@ -25,6 +25,12 @@ public:
 	// 3D背景描画
 	void Draw3D();
 
+	//移動
+	void Move();
+
+	//発生(発射)
+	void Born();
+
 private:
 	// ビュープロジェクション(共通)
 	ViewProjection viewProjection_;
@@ -32,7 +38,7 @@ private:
 	uint32_t textureHandEnemy_ = 0;
 	Model* modelEnemy_ = nullptr;
 	WorldTransform worldTransformEnemy_;
-	int enemyFlag_ = {};
-	float enemySpeed_ = {}; 
+	int aliveFlag_ = 0;
+	float enemySpeed_ = 2; 
 	
 };

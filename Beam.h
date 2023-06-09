@@ -24,7 +24,10 @@ public:
 	// 更新
 	void Update();
 
-	// 3D背景描画
+	float GetX() { return worldTransformBeam_.translation_.x; }
+	float GetZ() { return worldTransformBeam_.translation_.z; }
+	float GetFlag() { return beamFlag_; }
+ 	// 3D背景描画
 	void Draw3D();
 
 	//移動
@@ -32,6 +35,10 @@ public:
 
 	//発生(発射)
 	void Born();
+
+	void Hit() { beamFlag_ = 0; 
+	             worldTransformBeam_.translation_.z = 0; 
+	           }
 
 	private:
 	// ビュープロジェクション(共通)
@@ -48,7 +55,7 @@ public:
 	//生存フラグ
 	int aliveFlag_ = 0;
 
-	int beamFlag_ = 0;
+	float beamFlag_ = 0;
 
 
 	//プレイヤー

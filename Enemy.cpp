@@ -39,8 +39,6 @@ void Enemy::Born() {
 			    int x = rand() % 80;
 			    float x2 = (float)x / 10 + -4;
 			    worldTransformEnemy_.translation_.x = x2;
-
-				
 		    }
 	}
 }
@@ -58,5 +56,7 @@ void Enemy::Born() {
 }
 
 void Enemy::Draw3D() { 
+	if (aliveFlag_ == 1) {
 	modelEnemy_->Draw(worldTransformEnemy_, viewProjection_, textureHandEnemy_);
+	    }
 }

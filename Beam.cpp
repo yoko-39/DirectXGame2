@@ -57,7 +57,7 @@ void Beam::Update() {
 
 void Beam::Draw3D() {
 	if (beamFlag_ == 1) {
-		        modelBeam_->Draw(worldTransformBeam_, viewProjection_, textureHandleBeam_);
+     modelBeam_->Draw(worldTransformBeam_, viewProjection_, textureHandleBeam_);
 	}
 }
 

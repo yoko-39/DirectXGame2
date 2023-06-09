@@ -23,6 +23,7 @@ public:
 	void Update();
 	//X座標の獲得
 	float GetX() { return worldTransformPlayer_.translation_.x; }
+	float GetZ() { return worldTransformPlayer_.translation_.z; }
 
 	//3D背景描画
 	void Draw3D();

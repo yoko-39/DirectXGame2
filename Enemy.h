@@ -22,6 +22,9 @@ public:
 	// 更新
 	void Update();
 
+	float GetX() { return worldTransformEnemy_.translation_.x; }
+	float GetZ() { return worldTransformEnemy_.translation_.z; }
+	float GetFlag() { return aliveFlag_; }
 	// 3D背景描画
 	void Draw3D();
 
@@ -31,6 +34,9 @@ public:
 	//発生(発射)
 	void Born();
 
+	//衝突処理
+	void Hit() { aliveFlag_ = 0; }
+
 private:
 	// ビュープロジェクション(共通)
 	ViewProjection viewProjection_;
@@ -38,7 +44,7 @@ private:
 	uint32_t textureHandEnemy_ = 0;
 	Model* modelEnemy_ = nullptr;
 	WorldTransform worldTransformEnemy_;
-	int aliveFlag_ = 0;
+	float aliveFlag_ = 0;
 	float enemySpeed_ = 2; 
 	
 };

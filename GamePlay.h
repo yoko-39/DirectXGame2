@@ -12,9 +12,9 @@ public:
 
 	~GamePlay();
 
-	void Initialize(ViewProjection viewProjection);
+	void Initialize(ViewProjection viewProjection );
 
-	void Update();
+	int Update();
 
 	void Draw2DFar();
 	
@@ -22,11 +22,14 @@ public:
 	
 	void Draw2DNear();
 	 
+	void Start();
+
 	// 衝突処理 (プレイヤーと敵)
 	void CollisionPlayerEnemy();
 	// 衝突処理 (ビームと敵)
 	void CollisionBeamEnemy();
 
+	int GetFlag() { return sceneMode_; }
 	private:
 
 	// 各クラス
@@ -34,9 +37,12 @@ public:
 	Player* player_ = nullptr; // プレイヤー
 	Beam* beam_ = nullptr;     // ビーム
 	Enemy* enemy_ = nullptr;   // 敵
-	DebugText* debugText_ = nullptr;
+	
+	DebugText* debugText_ = nullptr;  
 	// ビュープロジェクション(共通)
 	ViewProjection viewProjection_;
 	int gameScore_ = 0;
 	int playerLife_ = 3;
+	int sceneMode_ = 1;
+	
 };

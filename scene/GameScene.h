@@ -9,8 +9,9 @@
 #include "ViewProjection.h"
 #include "WorldTransform.h"
 #include "GamePlay.h"
-
-/// <summary>
+#include "Title.h"
+#include "GameOver.h"
+    /// <summary>
 /// ゲームシーン
 /// </summary>
 class GameScene {
@@ -41,6 +42,8 @@ public: // メンバ関数
 	/// </summary>
 	void Draw();
 
+
+
 private: 
 	
 	// ビュープロジェクション(共通)
@@ -49,11 +52,11 @@ private:
 	DirectXCommon* dxCommon_ = nullptr;
 	Input* input_ = nullptr;
 	Audio* audio_ = nullptr;
-
+	Title* title_ = nullptr; // タイトル
+	GameOver* gameOver_ = nullptr; 
 	GamePlay* gamePlay_ = nullptr;
 	/// <summary>
 	/// ゲームシーン用
 	/// </summary>
-	/// 
-	int sceneMode_ = 0;
+	int sceneMode_ = 1;
 };

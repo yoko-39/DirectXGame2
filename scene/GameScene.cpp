@@ -8,9 +8,10 @@ GameScene::GameScene()
   
 }
 
-GameScene::~GameScene() 
-{
+GameScene::~GameScene() {
 	delete gamePlay_;
+	delete title_;
+	delete gameOver_;
 }
 
 void GameScene::Initialize() {
@@ -20,19 +21,43 @@ void GameScene::Initialize() {
 	audio_ = Audio::GetInstance();
 	gamePlay_ = new GamePlay();
 	gamePlay_->Initialize(viewProjection_);
+	title_ = new Title();
+	title_->Initialize();
+	gameOver_ = new GameOver();
+	gameOver_->Initialize(viewProjection_);
 }
 
-void GameScene::Update() 
-{
-  //各シーンの更新
-	switch (sceneMode_) 
-	{
+void GameScene::Update() {
+	int oldSceneMode = sceneMode_;
+	// 各シーンの更新
+
+	switch (sceneMode_) {
 	case 0:
-		gamePlay_->Update();
+		sceneMode_ = gamePlay_->Update();
+		//if (gamePlay_->GetFlag() == 2) {
+		//	sceneMode_ = 2;
+		//}
+		break;
+	case 1:
+		sceneMode_ = title_->Update();
+		break;
+	case 2:
+		gameOver_->Update();
+		if (input_->TriggerKey(DIK_RETURN)) {
+			sceneMode_ = 1;
+		}
 		break;
 	}
-}
 
+	if (oldSceneMode != sceneMode_) {
+		switch (sceneMode_) {
+		case 0:
+			gamePlay_->Start();
+			break;
+		}
+	}
+
+}
 
 
 void GameScene::Draw() {
@@ -49,6 +74,9 @@ void GameScene::Draw() {
 	/// </summary>
 	switch (sceneMode_) {
 	case 0:
+		gamePlay_->Draw2DFar();
+		break;
+	case 2:
 		gamePlay_->Draw2DFar();
 		break;
 	}
@@ -70,6 +98,9 @@ void GameScene::Draw() {
 	case 0:
 		gamePlay_->Draw3D();
 		break;
+	case 2:
+		gamePlay_->Draw3D();
+		break;
 	}
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();
@@ -86,7 +117,16 @@ void GameScene::Draw() {
 	case 0:
 		gamePlay_->Draw2DNear();  //ゲームプレイ
 		break;
+	case 1:
+		title_->Draw2DNear();
+		break;
+    case 2:
+		gamePlay_->Draw2DNear(); // ゲームプレイ
+		gameOver_->Draw2DNear();
+		break;
+		
 	}
+
 	// スプライト描画後処理
 	Sprite::PostDraw();
 

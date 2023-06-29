@@ -2,11 +2,13 @@
 #include "TextureManager.h"
 
 // コンストラクタ
-Player::Player() {}
+Player::Player() {
+
+}
 
 // デストラクタ
 Player::~Player() {
-	
+
 	delete modelPlayer_;
 }
 
@@ -19,7 +21,13 @@ void Player::Initialize(ViewProjection viewProjection) {
 	modelPlayer_ = Model::Create();
 	worldTransformPlayer_.scale_ = {0.5f, 0.5f, 0.5f};
 	worldTransformPlayer_.Initialize();
-
+	// 変換行列を更新
+	worldTransformPlayer_.matWorld_ = MakeAffineMatrix(
+	    worldTransformPlayer_.scale_, worldTransformPlayer_.rotation_,
+	    worldTransformPlayer_.translation_);
+	
+	// 変更行列を定数バッファーに転送
+	worldTransformPlayer_.TransferMatrix();
 	//インプットクラス
 	input_ = Input::GetInstance();
 }
@@ -54,6 +62,7 @@ void Player::Update() {
 }
 
 // プレイヤー
-void Player::Draw3D() { 
-	modelPlayer_->Draw(worldTransformPlayer_, viewProjection_, textureHandlePlayer_);
+void Player::Draw3D() {
+	
+	   modelPlayer_->Draw(worldTransformPlayer_, viewProjection_, textureHandlePlayer_);
 }

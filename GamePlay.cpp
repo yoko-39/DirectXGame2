@@ -1,13 +1,15 @@
 ﻿#include "GamePlay.h"
 
-GamePlay::GamePlay() {}
+GamePlay::GamePlay() {
+
+}
 
 GamePlay::~GamePlay() {
  // 各クラスの削除
 	delete stage_;  // ステージ
 	delete player_; // プレイヤー
 	delete beam_;   // ビーム
-	delete enemy_;
+	delete enemy_;   //敵
 }
 
 void GamePlay::Initialize(ViewProjection viewProjection) {
@@ -16,34 +18,39 @@ void GamePlay::Initialize(ViewProjection viewProjection) {
 	viewProjection_.translation_.y = 1;
 	viewProjection_.translation_.z = -6;
 	viewProjection_.Initialize();
+
 	// 各クラスの生成
 	stage_ = new Stage(); // ステージ
 	player_ = new Player(); // プレイヤ-
 	beam_ = new Beam(); // ビーム
 	enemy_ = new Enemy();
-	
+
 	// 各クラスの初期化
 	stage_->Initialize(viewProjection_);
 	player_->Initialize(viewProjection_);
 	beam_->Initialize(viewProjection_, player_);
 	enemy_->Initialize(viewProjection_);
-
+	
 	// デバッグテキスト
 	debugText_ = DebugText::GetInstance();
 	debugText_->Initialize();
 }
 
-void GamePlay::Update() {
+int GamePlay::Update() {
 	// 各クラスの更新
 	stage_->Update();  // ステージ
 	player_->Update(); // プレイヤー
 	beam_->Update();   // ビーム
 	enemy_->Update();  // 敵
-
+	
 	//衝突判定(プレイヤーと敵)
 	CollisionPlayerEnemy();
 	// 衝突判定(ビームと敵)
 	CollisionBeamEnemy();
+	if (playerLife_ <= 0) {
+		return 2;
+	}
+	    return 0;
 }
 
 void GamePlay::Draw2DFar() {
@@ -53,7 +60,9 @@ void GamePlay::Draw2DFar() {
 
 void GamePlay::Draw3D() {
 	stage_->Draw3D();    //ステージ
+	if (playerLife_ >= 0) {
 	player_->Draw3D();   //プレイヤー
+	}
 	beam_->Draw3D();    //ビーム
 	enemy_->Draw3D();   //敵
 }
@@ -66,8 +75,13 @@ void GamePlay::Draw2DNear() {
 
 	sprintf_s(str, "LIFE %d ", playerLife_);
 	debugText_->Print(str, 800, 10, 2);
-
 	debugText_->DrawAll();
+	
+}
+
+void GamePlay::Start() { 
+	playerLife_ = 3;
+	gameScore_ = 0;
 }
 
 void GamePlay::CollisionPlayerEnemy() {

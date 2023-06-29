@@ -39,5 +39,4 @@ public:
 
 	//インプットクラス
 	Input* input_ = nullptr;
-
 };

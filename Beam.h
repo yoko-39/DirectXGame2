@@ -36,6 +36,7 @@ public:
 	//発生(発射)
 	void Born();
 
+	void Start();
 	void Hit() { beamFlag_ = 0; 
 	             worldTransformBeam_.translation_.z = 0; 
 	           }
@@ -54,7 +55,6 @@ public:
 
 	//生存フラグ
 	int aliveFlag_ = 0;
-
 	float beamFlag_ = 0;
 
 

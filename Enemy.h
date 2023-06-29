@@ -1,14 +1,15 @@
-﻿#pragma once
+﻿// Enemy.h
+
+#pragma once
 #include "DirectXCommon.h"
+#include "Input.h"
+#include "MathUtilityForText.h"
 #include "Model.h"
 #include "SafeDelete.h"
-#include "Sprite.h" 
+#include "Sprite.h"
 #include "ViewProjection.h"
 #include "WorldTransform.h"
-#include "MathUtilityForText.h"
-#include "Input.h"
-class Enemy 
-{
+class Enemy {
 public:
 	// コンストラクタ
 	Enemy();
@@ -28,13 +29,15 @@ public:
 	// 3D背景描画
 	void Draw3D();
 
-	//移動
+	// 移動
 	void Move();
 
-	//発生(発射)
+	// 発生(発射)
 	void Born();
 
-	//衝突処理
+	void Start();
+
+	// 衝突処理
 	void Hit() { aliveFlag_ = 0; }
 
 private:
@@ -45,6 +48,5 @@ private:
 	Model* modelEnemy_ = nullptr;
 	WorldTransform worldTransformEnemy_;
 	float aliveFlag_ = 0;
-	float enemySpeed_ = 2; 
-	
+	float enemySpeed_ = 0;
 };

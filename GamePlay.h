@@ -4,6 +4,7 @@
 #include "Beam.h"
 #include "Enemy.h"
 #include "DebugText.h"
+#include "Input.h"
 
 class GamePlay 
 {
@@ -24,6 +25,8 @@ public:
 	 
 	void Start();
 
+	void Shot();
+
 	// 衝突処理 (プレイヤーと敵)
 	void CollisionPlayerEnemy();
 	// 衝突処理 (ビームと敵)
@@ -35,14 +38,17 @@ public:
 	// 各クラス
 	Stage* stage_ = nullptr;   // ステージ
 	Player* player_ = nullptr; // プレイヤー
-	Beam* beam_ = nullptr;     // ビーム
-	Enemy* enemy_ = nullptr;   // 敵
+	Beam* beamTable_[20] = {}; // ビーム
+	Enemy* enemyTable_[10] = {}; // 敵
 	
+	
+	// インプットクラス
+	Input* input_ = nullptr;
 	DebugText* debugText_ = nullptr;  
 	// ビュープロジェクション(共通)
 	ViewProjection viewProjection_;
 	int gameScore_ = 0;
 	int playerLife_ = 3;
 	int sceneMode_ = 1;
-	
+	int shotTimer_ = 0;
 };

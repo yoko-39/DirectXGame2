@@ -5,13 +5,16 @@ GamePlay::GamePlay() {
 }
 
 GamePlay::~GamePlay() {
- // 各クラスの削除
+	// 各クラスの削除
 	delete stage_;  // ステージ
 	delete player_; // プレイヤー
-	delete beam_;   // ビーム
-	delete enemy_;   //敵
+	for (Beam* beam : beamTable_) {
+		delete beam; // ビーム
+	}
+	for (Enemy* enemy : enemyTable_) {
+		delete enemy; // 敵
+	}
 }
-
 void GamePlay::Initialize(ViewProjection viewProjection) {
 
 	// ビュープロジェクションの初期化
@@ -22,27 +25,42 @@ void GamePlay::Initialize(ViewProjection viewProjection) {
 	// 各クラスの生成
 	stage_ = new Stage(); // ステージ
 	player_ = new Player(); // プレイヤ-
-	beam_ = new Beam(); // ビーム
-	enemy_ = new Enemy();
+	for (int j = 0; j < 20; j++) {
+		beamTable_[j] = new Beam(); // ビーム
+	}
+
+	for (int i = 0; i < 10; i++) {
+		enemyTable_[i] = new Enemy();
+	}
 
 	// 各クラスの初期化
 	stage_->Initialize(viewProjection_);
 	player_->Initialize(viewProjection_);
-	beam_->Initialize(viewProjection_, player_);
-	enemy_->Initialize(viewProjection_);
+	for (Beam* beam : beamTable_) {
+		beam->Initialize(viewProjection_, player_);
+	}
+	for (Enemy* enemy : enemyTable_) {
+		enemy->Initialize(viewProjection_);
+	}
 	
 	// デバッグテキスト
 	debugText_ = DebugText::GetInstance();
 	debugText_->Initialize();
+	// インプットクラス
+	input_ = Input::GetInstance();
 }
 
 int GamePlay::Update() {
+	Shot();
 	// 各クラスの更新
 	stage_->Update();  // ステージ
 	player_->Update(); // プレイヤー
-	beam_->Update();   // ビーム
-	enemy_->Update();  // 敵
-	
+	for (Beam* beam : beamTable_) {
+		beam->Update(); // ビーム
+	}
+	for (Enemy* enemy : enemyTable_) {
+		enemy->Update(); // 敵
+	}
 	//衝突判定(プレイヤーと敵)
 	CollisionPlayerEnemy();
 	// 衝突判定(ビームと敵)
@@ -63,8 +81,12 @@ void GamePlay::Draw3D() {
 	if (playerLife_ >= 0) {
 	player_->Draw3D();   //プレイヤー
 	}
-	beam_->Draw3D();    //ビーム
-	enemy_->Draw3D();   //敵
+	for (Beam* beam : beamTable_) {
+	beam->Draw3D(); // ビーム
+	}
+	for (Enemy* enemy : enemyTable_) {
+	enemy->Draw3D(); // 敵
+	}
 }
 
 void GamePlay::Draw2DNear() {
@@ -84,30 +106,65 @@ void GamePlay::Start() {
 	gameScore_ = 0;
 }
 
+void GamePlay::Shot() {
+	if (shotTimer_ == 0) {
+	// スぺースキーを押したら
+	if (input_->PushKey(DIK_SPACE)) {
+		// ビームでループ
+		for (Beam* beam : beamTable_) {
+			// 存在しなければ
+			if (beam->GetFlag() == 0) {
+				// 発射(発生)
+				beam->Born();
+				beam->Update();
+				shotTimer_ = 1;
+				break;
+			}
+		}
+	}
+	} else {
+	// タイマー時間加算
+	shotTimer_++;
+
+	// 一定時間で
+	if (shotTimer_ > 10) {
+		// 発射できる状態
+		shotTimer_ = 0;
+	}
+	}
+}
+
 void GamePlay::CollisionPlayerEnemy() {
 	// 敵が存在すれば
-	if (enemy_->GetFlag() == 1) {
+	for (Enemy* enemy : enemyTable_) {
+	if (enemy->GetFlag() == 1) {
 		// 差を求める
-		float dx = abs(player_->GetX() - enemy_->GetX());
-		float dz = abs(player_->GetZ() - enemy_->GetZ());
+		float dx = abs(player_->GetX() - enemy->GetX());
+		float dz = abs(player_->GetZ() - enemy->GetZ());
 
 		if (dx < 1 && dz < 1) {
 			// 衝突処理
-			enemy_->Hit();
+			enemy->Hit();
 			playerLife_ -= 1;
 		}
+	}
 	}
 }
 
 void GamePlay::CollisionBeamEnemy() {
-	if (enemy_->GetFlag() == 1 && beam_->GetFlag() == 1) {
-		float dx1 = abs(beam_->GetX() - enemy_->GetX());
-		float dz1 = abs(beam_->GetZ() - enemy_->GetZ());
+	for (Enemy* enemy : enemyTable_) {
+	for (Beam* beam : beamTable_) {
+		if (enemy->GetFlag() == 1 && beam->GetFlag() == 1) {
+			float dx1 = abs(beam->GetX() - enemy->GetX());
+			float dz1 = abs(beam->GetZ() - enemy->GetZ());
 
-		if (dx1 < 1 && dz1 < 1) {
-			enemy_->Hit();
-			beam_->Hit();
-			gameScore_ += 100;
+			if (dx1 < 1 && dz1 < 1) {
+				enemy->Hit();
+				beam->Hit();
+				gameScore_ += 100;
+			}
 		}
 	}
+	}
+	
 }

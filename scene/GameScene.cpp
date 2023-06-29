@@ -34,9 +34,7 @@ void GameScene::Update() {
 	switch (sceneMode_) {
 	case 0:
 		sceneMode_ = gamePlay_->Update();
-		//if (gamePlay_->GetFlag() == 2) {
-		//	sceneMode_ = 2;
-		//}
+	
 		break;
 	case 1:
 		sceneMode_ = title_->Update();

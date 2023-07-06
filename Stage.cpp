@@ -23,31 +23,46 @@ void Stage::Initialize(ViewProjection viewProjection)
 	spriteBG_ = Sprite::Create(textureHandleBG_, {0, 0});
 
 	//ステージ
-	textureHandleStage_ = TextureManager::Load("stage.jpg");
+	textureHandleStage_ = TextureManager::Load("stage2.jpg");
 	modelStage_ = Model::Create();
-	worldTransformStage_.Initialize();
+	for (int u = 0; u < 20; u++) {
+		worldTransformStageTable_[u].Initialize();
+	}
 	
 	// ステージの位置を変更
-		worldTransformStage_.translation_ = {0, -1.5f, 0 };
-		worldTransformStage_.scale_ = {4.5f, 1, 40};
+	for (int u = 0; u < 20; u++) {
+
+		worldTransformStageTable_[u].translation_ = {0, -1.5f, 2.0f * u - 5};
+		worldTransformStageTable_[u].scale_ = {4.5f, 1, 1};
 
 		// 変更行列を更新
-		worldTransformStage_.matWorld_ = MakeAffineMatrix(
-		    worldTransformStage_.scale_, worldTransformStage_.rotation_,
-		    worldTransformStage_.translation_);
+		worldTransformStageTable_[u].matWorld_ = MakeAffineMatrix(
+		    worldTransformStageTable_[u].scale_, worldTransformStageTable_[u].rotation_,
+		    worldTransformStageTable_[u].translation_);
 
 		// 変更行列を定数バッファーに転送
-		worldTransformStage_.TransferMatrix();
-	
+		worldTransformStageTable_[u].TransferMatrix();
+	}
 
 }
 
 //更新
-void Stage::Update() 
-{
-
+void Stage::Update() {
+	for (int u = 0; u < 20; u++) {
+		//手前に移動
+		worldTransformStageTable_[u].translation_.z -= 0.1f;
+		//端まで来たら奥へ戻る
+		if (worldTransformStageTable_[u].translation_.z < -5) {
+			worldTransformStageTable_[u].translation_.z += 40;
+		}
+		//変換行列を更新
+		worldTransformStageTable_[u].matWorld_ = MakeAffineMatrix(
+		    worldTransformStageTable_[u].scale_, worldTransformStageTable_[u].rotation_,
+		    worldTransformStageTable_[u].translation_);
+		// 変更行列を定数バッファーに転送
+		worldTransformStageTable_[u].TransferMatrix();
+	}
 }
-
 //2D背景描画
 void Stage::Draw2DFar()
 {
@@ -59,6 +74,8 @@ void Stage::Draw2DFar()
 void Stage::Draw3D() 
 {
  //ステージ
-	modelStage_->Draw(worldTransformStage_, viewProjection_, textureHandleStage_);
-}
+	for (int u = 0; u < 20; u++) {
+		modelStage_->Draw(worldTransformStageTable_[u], viewProjection_, textureHandleStage_);
+	}
+	}
 

@@ -38,7 +38,7 @@ public:
 	private:
 
 	// 各クラス
-	Stage* stage_ = nullptr;   // ステージ
+	Stage* stage_ = nullptr; // ステージ
 	Player* player_ = nullptr; // プレイヤー
 	Beam* beamTable_[20] = {}; // ビーム
 	Enemy* enemyTable_[10] = {}; // 敵
@@ -61,4 +61,5 @@ public:
 	int playerLife_ = 3;
 	int sceneMode_ = 1;
 	int shotTimer_ = 0;
+	int gameTimer_ = 0;
 };

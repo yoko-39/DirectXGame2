@@ -17,9 +17,9 @@ void Enemy::Initialize(ViewProjection viewProjection) {
 	worldTransformEnemy_.Initialize();
 }
 
-void Enemy::Update() {
-	
-	Move();
+void Enemy::Update(int gameTimer) {
+	Jump();
+	Move(gameTimer);
 	Born();
 	// 変更行列を更新
 	worldTransformEnemy_.matWorld_ = MakeAffineMatrix(
@@ -57,10 +57,25 @@ void Enemy::Start() {
   
 }
 
-void Enemy::Move() {
+void Enemy::Jump() { 
+	if (aliveFlag_ == 2) {
+		worldTransformEnemy_.translation_.y += JumpSpeed_;
+	//速度を減らす
+		JumpSpeed_ -= 0.1f;
+		worldTransformEnemy_.translation_.x += enemySpeed_ * 4;
+
+		if (worldTransformEnemy_.translation_.y < -3) {
+			aliveFlag_ = 0;
+		}
+
+	}
+}
+
+void Enemy::Move(int gameTimer) {
 	if (aliveFlag_ == 1) {
 		worldTransformEnemy_.translation_.x += enemySpeed_;
-		worldTransformEnemy_.translation_.z -= 0.5f;
+		worldTransformEnemy_.translation_.z -= 0.1f;
+		worldTransformEnemy_.translation_.z -= gameTimer / 1000.0f;
 		worldTransformEnemy_.rotation_.x -= 0.1f;
 		if (worldTransformEnemy_.translation_.z < -5.0f) {
 			aliveFlag_ = 0;
@@ -75,7 +90,7 @@ void Enemy::Move() {
 }
 
 void Enemy::Draw3D() {
-	if (aliveFlag_ == 1) {
+	if (aliveFlag_ != 0) {
 		modelEnemy_->Draw(worldTransformEnemy_, viewProjection_, textureHandEnemy_);
 	}
 }

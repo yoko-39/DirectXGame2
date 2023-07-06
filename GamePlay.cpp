@@ -6,7 +6,8 @@ GamePlay::GamePlay() {
 
 GamePlay::~GamePlay() {
 	// 各クラスの削除
-	delete stage_;  // ステージ
+	
+	delete stage_; // ステージ
 	delete player_; // プレイヤー
 	for (Beam* beam : beamTable_) {
 		delete beam; // ビーム
@@ -23,7 +24,8 @@ void GamePlay::Initialize(ViewProjection viewProjection) {
 	viewProjection_.Initialize();
 
 	// 各クラスの生成
-	stage_ = new Stage(); // ステージ
+
+	stage_= new Stage(); // ステージ
 	player_ = new Player(); // プレイヤ-
 	for (int j = 0; j < 20; j++) {
 		beamTable_[j] = new Beam(); // ビーム
@@ -58,14 +60,15 @@ void GamePlay::Initialize(ViewProjection viewProjection) {
 
 int GamePlay::Update() {
 	Shot();
+	gameTimer_ += 1;
 	// 各クラスの更新
-	stage_->Update();  // ステージ
+	stage_->Update(); // ステージ
 	player_->Update(); // プレイヤー
 	for (Beam* beam : beamTable_) {
 		beam->Update(); // ビーム
 	}
 	for (Enemy* enemy : enemyTable_) {
-		enemy->Update(); // 敵
+		enemy->Update(gameTimer_); // 敵
 	}
 	//衝突判定(プレイヤーと敵)
 	CollisionPlayerEnemy();
@@ -77,16 +80,15 @@ int GamePlay::Update() {
 	}
 	    return 0;
 
-
 }
 
 void GamePlay::Draw2DFar() {
 	// 背景の描画
-	stage_->Draw2DFar();
+		stage_->Draw2DFar();
 }
 
 void GamePlay::Draw3D() {
-	stage_->Draw3D();    //ステージ
+    stage_->Draw3D(); // ステージ
 	if (playerLife_ >= 0) {
 	player_->Draw3D();   //プレイヤー
 	}
@@ -113,6 +115,7 @@ void GamePlay::Draw2DNear() {
 void GamePlay::Start() { 
 	playerLife_ = 3;
 	gameScore_ = 0;
+	gameTimer_ = 0;
 	for (Enemy* enemy : enemyTable_) {
 	enemy->Start();
 	}

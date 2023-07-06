@@ -28,6 +28,7 @@ void Beam::Born() {
 	}
 }
 void Beam::Start() { 
+	beamFlag_ = 0;
 	worldTransformBeam_.translation_.z = 0;
 }
 void Beam::Move() {

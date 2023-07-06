@@ -12,7 +12,8 @@
 #include "Enemy.h"
 #include "DebugText.h"
 #include "Input.h"
-class Title 
+#include "Audio.h"
+class Title
 {
 public:
 
@@ -24,6 +25,8 @@ public:
 
 	//初期化
 	void Initialize();
+
+	void Start();
 
 	// 更新
 	int Update();
@@ -42,5 +45,9 @@ public:
 	int gameTimer_ = 0;
 	// インプットクラス
 	Input* input_ = nullptr;
+	///サウンド
+	Audio* audio_ = nullptr;
+	uint32_t soundDatahandleBGM_ = 0;
+	uint32_t voiceHandleBGM_ = 0;
 
 };

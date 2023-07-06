@@ -12,6 +12,7 @@
 #include "Player.h"
 #include "DebugText.h"
 #include "Input.h"
+#include "Audio.h"
 
 class GameOver 
 {
@@ -27,6 +28,10 @@ public:
 
 	void Draw2DNear();
 
+	void Start();
+
+	void Stop();
+
 	private:
 		// ビュープロジェクション(共通)
 	ViewProjection viewProjection_;
@@ -39,5 +44,8 @@ public:
 	Sprite* spriteOver_ = nullptr;
 	// インプットクラス
 	Input* input_ = nullptr;
-	
+	// サウンド
+	Audio* audio_ = nullptr;
+	uint32_t soundDatahandleBGM_ = 0;
+	uint32_t voiceHandleBGM_ = 0;
 };

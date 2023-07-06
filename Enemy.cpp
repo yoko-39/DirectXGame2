@@ -18,7 +18,7 @@ void Enemy::Initialize(ViewProjection viewProjection) {
 }
 
 void Enemy::Update() {
-
+	
 	Move();
 	Born();
 	// 変更行列を更新
@@ -52,7 +52,9 @@ void Enemy::Born() {
 
 void Enemy::Start() { 
 	aliveFlag_ = 0; 
-    worldTransformEnemy_.translation_.z = 40;
+	worldTransformEnemy_.translation_.y = 0;
+	
+  
 }
 
 void Enemy::Move() {

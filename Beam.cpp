@@ -27,7 +27,9 @@ void Beam::Born() {
 		}
 	}
 }
-void Beam::Start() {}
+void Beam::Start() { 
+	worldTransformBeam_.translation_.z = 0;
+}
 void Beam::Move() {
 	if (beamFlag_ == 1) {
 		worldTransformBeam_.translation_.z += 0.5;

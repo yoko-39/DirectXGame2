@@ -5,6 +5,8 @@
 #include "Enemy.h"
 #include "DebugText.h"
 #include "Input.h"
+#include "Audio.h"
+
 
 class GamePlay 
 {
@@ -42,9 +44,17 @@ public:
 	Enemy* enemyTable_[10] = {}; // 敵
 	
 	
+	// サウンド
+	Audio* audio_ = nullptr;
+	uint32_t soundDatahandleBGM_ = 0;
+	uint32_t voiceHandleBGM_ = 0;
 	// インプットクラス
 	Input* input_ = nullptr;
 	DebugText* debugText_ = nullptr;  
+	//敵ヒットSE
+	uint32_t soundDateHandleEnemySE_ = 0;
+	//プレイヤーヒットSE
+	uint32_t soundDateHandlePlayerSE_ = 0;
 	// ビュープロジェクション(共通)
 	ViewProjection viewProjection_;
 	int gameScore_ = 0;

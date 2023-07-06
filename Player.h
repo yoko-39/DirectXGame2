@@ -28,6 +28,8 @@ public:
 	//3D背景描画
 	void Draw3D();
 
+	void Start();
+
 	private:
 
 	// ビュープロジェクション(共通)

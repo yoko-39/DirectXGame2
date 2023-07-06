@@ -48,6 +48,12 @@ void GamePlay::Initialize(ViewProjection viewProjection) {
 	debugText_->Initialize();
 	// インプットクラス
 	input_ = Input::GetInstance();
+	// サウンドデータの読み込み
+	audio_ = Audio::GetInstance();
+	soundDatahandleBGM_ = audio_->LoadWave("Audio/Ring08.wav");
+
+	soundDateHandleEnemySE_ = audio_->LoadWave("Audio/chord.wav");
+	soundDateHandlePlayerSE_ = audio_->LoadWave("Audio/tada.wav");
 }
 
 int GamePlay::Update() {
@@ -66,9 +72,12 @@ int GamePlay::Update() {
 	// 衝突判定(ビームと敵)
 	CollisionBeamEnemy();
 	if (playerLife_ <= 0) {
+		audio_->StopWave(voiceHandleBGM_);
 		return 2;
 	}
 	    return 0;
+
+
 }
 
 void GamePlay::Draw2DFar() {
@@ -104,6 +113,15 @@ void GamePlay::Draw2DNear() {
 void GamePlay::Start() { 
 	playerLife_ = 3;
 	gameScore_ = 0;
+	for (Enemy* enemy : enemyTable_) {
+	enemy->Start();
+	}
+	for (Beam* beam : beamTable_) {
+	beam->Start();
+	}
+	player_->Start();
+	// BGMを再生
+	voiceHandleBGM_ = audio_->PlayWave(soundDatahandleBGM_, true);
 }
 
 void GamePlay::Shot() {
@@ -143,6 +161,7 @@ void GamePlay::CollisionPlayerEnemy() {
 		float dz = abs(player_->GetZ() - enemy->GetZ());
 
 		if (dx < 1 && dz < 1) {
+			audio_->PlayWave(soundDateHandlePlayerSE_);
 			// 衝突処理
 			enemy->Hit();
 			playerLife_ -= 1;
@@ -161,6 +180,7 @@ void GamePlay::CollisionBeamEnemy() {
 			if (dx1 < 1 && dz1 < 1) {
 				enemy->Hit();
 				beam->Hit();
+				audio_->PlayWave(soundDateHandleEnemySE_);
 				gameScore_ += 100;
 			}
 		}

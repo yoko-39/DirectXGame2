@@ -25,6 +25,8 @@ void GameScene::Initialize() {
 	title_->Initialize();
 	gameOver_ = new GameOver();
 	gameOver_->Initialize(viewProjection_);
+	
+	
 }
 
 void GameScene::Update() {
@@ -34,7 +36,6 @@ void GameScene::Update() {
 	switch (sceneMode_) {
 	case 0:
 		sceneMode_ = gamePlay_->Update();
-	
 		break;
 	case 1:
 		sceneMode_ = title_->Update();
@@ -50,7 +51,15 @@ void GameScene::Update() {
 	if (oldSceneMode != sceneMode_) {
 		switch (sceneMode_) {
 		case 0:
+		
 			gamePlay_->Start();
+			break;
+		case 1:
+			title_->Start();
+			gameOver_->Stop();
+			break;
+		case 2:
+			gameOver_->Start();
 			break;
 		}
 	}

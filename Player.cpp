@@ -66,3 +66,7 @@ void Player::Draw3D() {
 	
 	   modelPlayer_->Draw(worldTransformPlayer_, viewProjection_, textureHandlePlayer_);
 }
+
+void Player::Start() {
+	worldTransformPlayer_.translation_.x = 0; 
+}

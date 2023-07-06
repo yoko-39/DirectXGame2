@@ -15,12 +15,25 @@ void Title::Initialize() {
 	spriteEnter_ = Sprite::Create(textureHandleEnter_, {400, 400});
 	// インプットクラス
 	input_ = Input::GetInstance();
+
+	//サウンドデータの読み込み
+	audio_ = Audio::GetInstance();
+	soundDatahandleBGM_ = audio_->LoadWave("Audio/Ring05.wav");
+	Start();
+}
+
+void Title::Start() {
+//BGMを再生
+	voiceHandleBGM_ = audio_->PlayWave(soundDatahandleBGM_, true);
+
 }
 
 int Title::Update() {
 	gameTimer_ += 1;
 
 	if (input_->TriggerKey(DIK_RETURN)) {
+		audio_->StopWave(voiceHandleBGM_);
+		
 		return 0;
 	}
 	return 1;

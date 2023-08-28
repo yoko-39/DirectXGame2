@@ -45,6 +45,15 @@ void Player::Update() {
 		worldTransformPlayer_.translation_.x -= 0.1f;
 	}
 
+	if (input_->PushKey(DIK_UP)) {
+		worldTransformPlayer_.translation_.y += 0.1f;
+	}
+
+    if (input_->PushKey(DIK_DOWN)) {
+		worldTransformPlayer_.translation_.y -= 0.1f;
+	}
+
+
 	// 変換行列を更新
 	worldTransformPlayer_.matWorld_ = MakeAffineMatrix(
 	    worldTransformPlayer_.scale_, worldTransformPlayer_.rotation_,
@@ -59,6 +68,12 @@ void Player::Update() {
 	if (worldTransformPlayer_.translation_.x < -4) {
 		worldTransformPlayer_.translation_.x = -4;
 	}
+	if (worldTransformPlayer_.translation_.y < -4) {
+		worldTransformPlayer_.translation_.y = -4;
+	}
+	if (worldTransformPlayer_.translation_.y > 4) {
+		worldTransformPlayer_.translation_.y = 4;
+	}
 }
 
 // プレイヤー
@@ -69,4 +84,5 @@ void Player::Draw3D() {
 
 void Player::Start() {
 	worldTransformPlayer_.translation_.x = 0; 
+	worldTransformPlayer_.translation_.y = 0;
 }

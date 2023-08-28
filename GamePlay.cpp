@@ -26,7 +26,7 @@ GamePlay::~GamePlay() {
 }
 void GamePlay::Initialize(ViewProjection viewProjection) {
 
-	// ビュープロジェクションの初期化
+	// ビュープロジェクションの初期化(カメラの位置がずれる)
 	viewProjection_.translation_.y = 1;
 	viewProjection_.translation_.z = -6;
 	viewProjection_.Initialize();

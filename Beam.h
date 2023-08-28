@@ -26,6 +26,7 @@ public:
 
 	float GetX() { return worldTransformBeam_.translation_.x; }
 	float GetZ() { return worldTransformBeam_.translation_.z; }
+	float GetY() { return worldTransformBeam_.translation_.y; }
 	float GetFlag() { return beamFlag_; }
  	// 3D背景描画
 	void Draw3D();

@@ -23,6 +23,7 @@ void Beam::Born() {
 	if (beamFlag_ == 0) {
 		if (input_->PushKey(DIK_SPACE)) {
 			worldTransformBeam_.translation_.x = player_->GetX();
+			worldTransformBeam_.translation_.y = player_->GetY();
 			beamFlag_ = 1;
 		}
 	}

@@ -215,8 +215,8 @@ void GamePlay::CollisionPlayerEnemy() {
 		// 差を求める
 		float dx = abs(player_->GetX() - enemy->GetX());
 		float dz = abs(player_->GetZ() - enemy->GetZ());
-
-		if (dx < 1 && dz < 1) {
+		float dy = abs(player_->GetY() - enemy->GetY());
+		if (dx < 1 && dz < 1 && dy < 1) {
 			audio_->PlayWave(soundDateHandlePlayerSE_);
 			// 衝突処理
 			enemy->Hit();
@@ -233,8 +233,8 @@ void GamePlay::CollisionBeamEnemy() {
 		if (enemy->GetFlag() == 1 && beam->GetFlag() == 1) {
 			float dx1 = abs(beam->GetX() - enemy->GetX());
 			float dz1 = abs(beam->GetZ() - enemy->GetZ());
-
-			if (dx1 < 1 && dz1 < 1) {
+			float dy1 = abs(beam->GetY() - enemy->GetY());
+			if (dx1 < 1 && dz1 < 1 && dy1 < 1) {
 				enemy->Hit();
 				beam->Hit();
 				audio_->PlayWave(soundDateHandleEnemySE_);

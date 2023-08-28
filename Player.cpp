@@ -37,19 +37,19 @@ void Player::Update() {
 
 	// 移動
 	// 右へ移動
-	if (input_->PushKey(DIK_RIGHT)) {
+	if (input_->PushKey(DIK_RIGHT) || input_->PushKey(DIK_D)) {
 		worldTransformPlayer_.translation_.x += 0.1f;
 	}
 
-	if (input_->PushKey(DIK_LEFT)) {
+	if (input_->PushKey(DIK_LEFT) || input_->PushKey(DIK_A)) {
 		worldTransformPlayer_.translation_.x -= 0.1f;
 	}
 
-	if (input_->PushKey(DIK_UP)) {
+	if (input_->PushKey(DIK_UP) || input_->PushKey(DIK_W)) {
 		worldTransformPlayer_.translation_.y += 0.1f;
 	}
 
-    if (input_->PushKey(DIK_DOWN)) {
+    if (input_->PushKey(DIK_DOWN) || input_->PushKey(DIK_S)) {
 		worldTransformPlayer_.translation_.y -= 0.1f;
 	}
 
@@ -68,11 +68,11 @@ void Player::Update() {
 	if (worldTransformPlayer_.translation_.x < -4) {
 		worldTransformPlayer_.translation_.x = -4;
 	}
-	if (worldTransformPlayer_.translation_.y < -4) {
-		worldTransformPlayer_.translation_.y = -4;
+	if (worldTransformPlayer_.translation_.y < -3) {
+		worldTransformPlayer_.translation_.y = -3;
 	}
-	if (worldTransformPlayer_.translation_.y > 4) {
-		worldTransformPlayer_.translation_.y = 4;
+	if (worldTransformPlayer_.translation_.y > 3) {
+		worldTransformPlayer_.translation_.y = 3;
 	}
 }
 

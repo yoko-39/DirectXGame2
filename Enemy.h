@@ -25,6 +25,7 @@ public:
 
 	float GetX() { return worldTransformEnemy_.translation_.x; }
 	float GetZ() { return worldTransformEnemy_.translation_.z; }
+	float GetY() { return worldTransformEnemy_.translation_.y; }
 	float GetFlag() { return aliveFlag_; }
 	// 3D背景描画
 	void Draw3D();

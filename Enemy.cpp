@@ -31,15 +31,18 @@ void Enemy::Update(int gameTimer) {
 }
 
 void Enemy::Born() {
-	if (rand() % 10 == 0) {
+	if (rand() % 8 == 0) {
 		if (aliveFlag_ == 0) {
 			aliveFlag_ = 1;
 			worldTransformEnemy_.translation_.y = 0;
 			worldTransformEnemy_.translation_.z = 40.0f;
 
 			int x = rand() % 80;
+			int y = rand() % 80;
 			float x2 = (float)x / 10 + -4;
+			float y2 = (float)y / 10 + -4;
 			worldTransformEnemy_.translation_.x = x2;
+			worldTransformEnemy_.translation_.y = y2;
 
 			if (rand() % 2 == 0) {
 				enemySpeed_ = 0.1f;

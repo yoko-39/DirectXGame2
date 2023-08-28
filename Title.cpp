@@ -8,7 +8,7 @@ Title::~Title() {
 
 void Title::Initialize() {
 	// タイトル
-	textureHandleTitle_ = TextureManager::Load("title.png");
+	textureHandleTitle_ = TextureManager::Load("source/title.png");
 	spriteTitle_ = Sprite::Create(textureHandleTitle_, {0, 0});
 	// エンター
 	textureHandleEnter_ = TextureManager::Load("Enter.png");

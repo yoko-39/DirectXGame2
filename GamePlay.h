@@ -3,9 +3,11 @@
 #include "Player.h"
 #include "Beam.h"
 #include "Enemy.h"
+#include "EnemyBeam.h"
 #include "DebugText.h"
 #include "Input.h"
 #include "Audio.h"
+
 
 
 class GamePlay 
@@ -36,6 +38,8 @@ public:
 	// 衝突処理 (ビームと敵)
 	void CollisionBeamEnemy();
 
+	void CollisionEnemyBeamPlayer();
+
 	int GetFlag() { return sceneMode_; }
 	private:
 
@@ -43,8 +47,8 @@ public:
 	Stage* stage_ = nullptr; // ステージ
 	Player* player_ = nullptr; // プレイヤー
 	Beam* beamTable_[20] = {}; // ビーム
-	Enemy* enemyTable_[10] = {}; // 敵
-	
+	Enemy* enemyTable_[15] = {}; // 敵
+	EnemyBeam* enemybeamTable_[20] = {};
 	// スコア
 	uint32_t textureHandleScore_ = 0;
 	Sprite* spriteScore_ = nullptr;

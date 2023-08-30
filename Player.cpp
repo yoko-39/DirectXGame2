@@ -68,8 +68,8 @@ void Player::Update() {
 	if (worldTransformPlayer_.translation_.x < -4) {
 		worldTransformPlayer_.translation_.x = -4;
 	}
-	if (worldTransformPlayer_.translation_.y < -3) {
-		worldTransformPlayer_.translation_.y = -3;
+	if (worldTransformPlayer_.translation_.y < 0) {
+		worldTransformPlayer_.translation_.y = 0;
 	}
 	if (worldTransformPlayer_.translation_.y > 3) {
 		worldTransformPlayer_.translation_.y = 3;

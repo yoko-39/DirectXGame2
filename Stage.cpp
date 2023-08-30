@@ -19,11 +19,11 @@ void Stage::Initialize(ViewProjection viewProjection)
 	//メンバー変数に代入
 	viewProjection_ = viewProjection;
 	//BG(2Dスプライト)
-	textureHandleBG_ = TextureManager::Load("bg.jpg");
+	textureHandleBG_ = TextureManager::Load("source/ground.png");
 	spriteBG_ = Sprite::Create(textureHandleBG_, {0, 0});
 
 	//ステージ
-	textureHandleStage_ = TextureManager::Load("stage2.jpg");
+	textureHandleStage_ = TextureManager::Load("source/graund.png");
 	modelStage_ = Model::Create();
 	for (int u = 0; u < 20; u++) {
 		worldTransformStageTable_[u].Initialize();
@@ -71,11 +71,10 @@ void Stage::Draw2DFar()
 }
 
 //3D描画
-void Stage::Draw3D() 
-{
- //ステージ
+void Stage::Draw3D() {
+	// ステージ
 	for (int u = 0; u < 20; u++) {
 		modelStage_->Draw(worldTransformStageTable_[u], viewProjection_, textureHandleStage_);
 	}
-	}
+}
 

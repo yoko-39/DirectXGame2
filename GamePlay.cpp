@@ -15,6 +15,9 @@ GamePlay::~GamePlay() {
 	for (Enemy* enemy : enemyTable_) {
 		delete enemy; // 敵
 	}
+	for (EnemyBeam* enemybeam : enemybeamTable_) {
+	          delete enemybeam;
+	}
 	delete spriteScore_;
 	for (int k = 0; k < 5; k++) {
 		delete spriteNumber_[k];
@@ -23,6 +26,7 @@ GamePlay::~GamePlay() {
 	for (int l = 0; l < 3; l++) {
 		delete spriteLife_[l]; 
 	}
+
 }
 void GamePlay::Initialize(ViewProjection viewProjection) {
 
@@ -39,10 +43,12 @@ void GamePlay::Initialize(ViewProjection viewProjection) {
 		beamTable_[j] = new Beam(); // ビーム
 	}
 
-	for (int i = 0; i < 10; i++) {
+	for (int i = 0; i < 20; i++) {
 		enemyTable_[i] = new Enemy();
 	}
-
+	for (int u = 0; u < 20; u++) {
+		enemybeamTable_[u] = new EnemyBeam();
+	}
 	// 各クラスの初期化
 	stage_->Initialize(viewProjection_);
 	player_->Initialize(viewProjection_);
@@ -51,8 +57,14 @@ void GamePlay::Initialize(ViewProjection viewProjection) {
 	}
 	for (Enemy* enemy : enemyTable_) {
 		enemy->Initialize(viewProjection_);
+		for (EnemyBeam* enemybeam : enemybeamTable_) {
+			enemybeam->Initialize(viewProjection_, enemy);
+						
+		}
 	}
-	
+
+        
+
 	// デバッグテキスト
 	debugText_ = DebugText::GetInstance();
 	debugText_->Initialize();
@@ -92,18 +104,25 @@ int GamePlay::Update() {
 		beam->Update(); // ビーム
 	}
 	for (Enemy* enemy : enemyTable_) {
-		enemy->Update(gameTimer_); // 敵
+		enemy->Update(); // 敵
+		for (EnemyBeam* enemybeam : enemybeamTable_) {
+		enemybeam->Born();
+		
+		}
 	}
-
+	for (EnemyBeam* enemybeam : enemybeamTable_) {
+	    	enemybeam->Update();
+	}
 	if (playerTimer_ > 0) {
 		playerTimer_ -= 1;
 	}
+	
 	//衝突判定(プレイヤーと敵)
 	CollisionPlayerEnemy();
 	// 衝突判定(ビームと敵)
 	CollisionBeamEnemy();
-
-
+	//衝突判定(プレイヤーと敵の弾)
+	CollisionEnemyBeamPlayer();
 
 	if (playerLife_ <= 0) {
 		audio_->StopWave(voiceHandleBGM_);
@@ -131,6 +150,9 @@ void GamePlay::Draw3D() {
 	for (Enemy* enemy : enemyTable_) {
 	enemy->Draw3D(); // 敵
 	}
+	for (EnemyBeam* enemybeam : enemybeamTable_) {
+	enemybeam->Draw3D();
+	}
 }
 
 void GamePlay::Draw2DNear() {
@@ -151,6 +173,9 @@ void GamePlay::Start() {
 	beam->Start();
 	}
 	player_->Start();
+	for (EnemyBeam* enemybeam : enemybeamTable_) {
+	enemybeam->Start();
+	}
 	// BGMを再生
 	voiceHandleBGM_ = audio_->PlayWave(soundDatahandleBGM_, true);
 }
@@ -240,6 +265,22 @@ void GamePlay::CollisionBeamEnemy() {
 				audio_->PlayWave(soundDateHandleEnemySE_);
 				gameScore_ += 100;
 			}
+		}
+	}
+	}
+
+}
+
+void GamePlay::CollisionEnemyBeamPlayer() { 
+	for (EnemyBeam* enemybeam : enemybeamTable_) {
+	if (enemybeam->GetFlag() == 1) {
+		float dx2 = abs(player_->GetX() - enemybeam->GetX());
+		float dz2 = abs(player_->GetZ() - enemybeam->GetZ());
+		float dy2 = abs(player_->GetY() - enemybeam->GetY());
+
+		if (dx2 < 1 && dz2 < 1 && dy2 < 1) {
+			playerLife_ -= 1;
+			enemybeam->Hit();
 		}
 	}
 	}

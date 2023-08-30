@@ -10,7 +10,7 @@ void Beam::Initialize(ViewProjection viewProjection, Player* player) {
 	viewProjection_ = viewProjection;
 	player_ = player;
 	// 弾
-	textureHandleBeam_ = TextureManager::Load("beam.png");
+	textureHandleBeam_ = TextureManager::Load("source/beam.png");
 	modelBeam_ = Model::Create();
 	worldTransformBeam_.scale_ = {0.3f, 0.3f, 0.3f};
 	worldTransformBeam_.Initialize();

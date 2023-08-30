@@ -1,5 +1,4 @@
-﻿// Enemy.h
-
+﻿
 #pragma once
 #include "DirectXCommon.h"
 #include "Input.h"
@@ -21,7 +20,7 @@ public:
 	void Initialize(ViewProjection viewProjection);
 
 	// 更新
-	void Update(int gameTimer);
+	void Update();
 
 	float GetX() { return worldTransformEnemy_.translation_.x; }
 	float GetZ() { return worldTransformEnemy_.translation_.z; }
@@ -31,7 +30,7 @@ public:
 	void Draw3D();
 
 	// 移動
-	void Move(int gameTimer);
+	void Move();
 
 	// 発生(発射)
 	void Born();

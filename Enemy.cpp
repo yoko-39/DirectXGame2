@@ -17,9 +17,9 @@ void Enemy::Initialize(ViewProjection viewProjection) {
 	worldTransformEnemy_.Initialize();
 }
 
-void Enemy::Update(int gameTimer) {
+void Enemy::Update() {
 	Jump();
-	Move(gameTimer);
+	Move();
 	Born();
 	// 変更行列を更新
 	worldTransformEnemy_.matWorld_ = MakeAffineMatrix(
@@ -37,10 +37,10 @@ void Enemy::Born() {
 			worldTransformEnemy_.translation_.y = 0;
 			worldTransformEnemy_.translation_.z = 40.0f;
 
-			int x = rand() % 80;
-			int y = rand() % 80;
-			float x2 = (float)x / 10 + -4;
-			float y2 = (float)y / 10 + -4;
+			int x = rand() % 100;
+			int y = rand() % 40;
+			float x2 = (float)x / 10 + -5;
+			float y2 = (float)y / 10 + -0.1f;
 			worldTransformEnemy_.translation_.x = x2;
 			worldTransformEnemy_.translation_.y = y2;
 
@@ -56,8 +56,7 @@ void Enemy::Born() {
 void Enemy::Start() { 
 	aliveFlag_ = 0; 
 	worldTransformEnemy_.translation_.y = 0;
-	
-  
+
 }
 
 void Enemy::Jump() { 
@@ -74,20 +73,12 @@ void Enemy::Jump() {
 	}
 }
 
-void Enemy::Move(int gameTimer) {
+void Enemy::Move() {
 	if (aliveFlag_ == 1) {
-		worldTransformEnemy_.translation_.x += enemySpeed_;
-		worldTransformEnemy_.translation_.z -= 0.1f;
-		worldTransformEnemy_.translation_.z -= gameTimer / 1000.0f;
-		worldTransformEnemy_.rotation_.x -= 0.1f;
+		worldTransformEnemy_.translation_.z -= 0.4f;
+		
 		if (worldTransformEnemy_.translation_.z < -5.0f) {
 			aliveFlag_ = 0;
-		}
-		if (worldTransformEnemy_.translation_.x > 4) {
-			enemySpeed_ *= -1.0f;
-		}
-		if (worldTransformEnemy_.translation_.x < -4) {
-			enemySpeed_ *= -1.0f;
 		}
 	}
 }

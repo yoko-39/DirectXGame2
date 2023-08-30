@@ -39,7 +39,7 @@ void Enemy::Born() {
 
 			int x = rand() % 100;
 			int y = rand() % 40;
-			float x2 = (float)x / 10 + -5;
+			float x2 = (float)x / 10 + -5.0f;
 			float y2 = (float)y / 10 + -0.1f;
 			worldTransformEnemy_.translation_.x = x2;
 			worldTransformEnemy_.translation_.y = y2;

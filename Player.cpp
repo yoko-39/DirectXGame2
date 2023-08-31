@@ -17,7 +17,7 @@ void Player::Initialize(ViewProjection viewProjection) {
 	// メンバー変数に代入
 	viewProjection_ = viewProjection;
 	// プレイヤー
-	textureHandlePlayer_ = TextureManager::Load("player.png");
+	textureHandlePlayer_ = TextureManager::Load("source/player.png");
 	modelPlayer_ = Model::Create();
 	worldTransformPlayer_.scale_ = {0.5f, 0.5f, 0.5f};
 	worldTransformPlayer_.Initialize();

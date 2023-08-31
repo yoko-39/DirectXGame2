@@ -112,6 +112,7 @@
     <ClCompile Include="Beam.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="EnemyBeam.cpp" />
+    <ClCompile Include="GameClear.cpp" />
     <ClCompile Include="GameOver.cpp" />
     <ClCompile Include="GamePlay.cpp" />
     <ClCompile Include="main.cpp" />
@@ -147,6 +148,7 @@
     <ClInclude Include="Beam.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="EnemyBeam.h" />
+    <ClInclude Include="GameClear.h" />
     <ClInclude Include="GameOver.h" />
     <ClInclude Include="GamePlay.h" />
     <ClInclude Include="input\Input.h" />

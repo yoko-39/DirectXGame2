@@ -8,6 +8,7 @@
 #include "Sprite.h"
 #include "ViewProjection.h"
 #include "WorldTransform.h"
+
 class Enemy {
 public:
 	// コンストラクタ
@@ -54,4 +55,6 @@ private:
 	float aliveFlag_ = 0;
 	float enemySpeed_ = 0;
 	float JumpSpeed_ = 0;
+
+
 };

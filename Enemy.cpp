@@ -10,11 +10,13 @@ void Enemy::Initialize(ViewProjection viewProjection) {
 	// メンバー変数に代入
 	viewProjection_ = viewProjection;
 	// 敵
-	textureHandEnemy_ = TextureManager::Load("enemy.png");
+	textureHandEnemy_ = TextureManager::Load("source/enemy.png");
 	modelEnemy_ = Model::Create();
 	// 敵の数ループする
 	worldTransformEnemy_.scale_ = {0.5f, 0.5f, 0.5f};
 	worldTransformEnemy_.Initialize();
+
+	
 }
 
 void Enemy::Update() {

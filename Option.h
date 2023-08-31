@@ -7,54 +7,41 @@
 #include "WorldTransform.h"
 #include "MathUtilityForText.h"
 #include "Stage.h"
+#include "Player.h"
 #include "Beam.h"
 #include "Enemy.h"
-#include "Player.h"
 #include "DebugText.h"
 #include "Input.h"
 #include "Audio.h"
-
-class GameClear {
+class Option {
 public:
-	GameClear();
+	// コンストラクタ
+	Option();
 
-	~GameClear();
+	// デストラクタ
+	~Option();
 
+	// 初期化
 	void Initialize(ViewProjection viewProjection);
-
-	void Update();
-
-	void Draw2DNear();
 
 	void Start();
 
-	void Stop();
+	// 更新
+	int Update();
 
+	void Draw2DNear();
+	 
 private:
-	// ビュープロジェクション(共通)
-	ViewProjection viewProjection_;
-	// エンター
-	uint32_t textureHandleEnter_ = 0;
-	Sprite* spriteEnter_ = nullptr;
-	int gameTimer_ = 0;
-	// ゲームオーバー
-	uint32_t textureHandleClear_ = 0;
-	Sprite* spriteClear_ = nullptr;
+	
 	// インプットクラス
 	Input* input_ = nullptr;
-	// サウンド
+	// オプション
+	uint32_t textureHandleOption_ = 0;
+	Sprite* spriteOption_ = nullptr;
+	/// サウンド
 	Audio* audio_ = nullptr;
 	uint32_t soundDatahandleBGM_ = 0;
 	uint32_t voiceHandleBGM_ = 0;
+
 };
-
-
-
-
-
-
-
-
-
-
 

@@ -11,8 +11,12 @@ void Title::Initialize() {
 	textureHandleTitle_ = TextureManager::Load("source/title.png");
 	spriteTitle_ = Sprite::Create(textureHandleTitle_, {0, 0});
 	// エンター
-	textureHandleEnter_ = TextureManager::Load("Enter.png");
+	textureHandleEnter_ = TextureManager::Load("source/Enter.png");
 	spriteEnter_ = Sprite::Create(textureHandleEnter_, {400, 400});
+
+	
+
+
 	// インプットクラス
 	input_ = Input::GetInstance();
 
@@ -24,7 +28,7 @@ void Title::Initialize() {
 
 void Title::Start() {
 //BGMを再生
-	voiceHandleBGM_ = audio_->PlayWave(soundDatahandleBGM_, true);
+//	voiceHandleBGM_ = audio_->PlayWave(soundDatahandleBGM_, true);
 
 }
 
@@ -50,3 +54,5 @@ void Title::Draw2DNear() {
 		spriteEnter_->Draw();
 	}
 }
+
+

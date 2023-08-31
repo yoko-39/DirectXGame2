@@ -43,7 +43,7 @@ void GamePlay::Initialize(ViewProjection viewProjection) {
 		beamTable_[j] = new Beam(); // ビーム
 	}
 
-	for (int i = 0; i < 20; i++) {
+	for (int i = 0; i < 15; i++) {
 		enemyTable_[i] = new Enemy();
 	}
 	for (int u = 0; u < 20; u++) {
@@ -82,11 +82,11 @@ void GamePlay::Initialize(ViewProjection viewProjection) {
 		spriteNumber_[k] = Sprite::Create(textureHandleNumber_, {300.0f + k * 26, 0});
 	}
 	// スコア
-	textureHandleScore_ = TextureManager::Load("score.png");
+	textureHandleScore_ = TextureManager::Load("source/score.png");
 	spriteScore_ = Sprite::Create(textureHandleScore_, {170.0f, 0});
 
 	// ライフ
-	textureHandleLife_ = TextureManager::Load("player.png");
+	textureHandleLife_ = TextureManager::Load("source/player.png");
 
 	for (int l = 0; l < playerLife_; l++) {
 		spriteLife_[l] = Sprite::Create(textureHandleLife_, {800.0f + l * 60, 0});
@@ -113,6 +113,7 @@ int GamePlay::Update() {
 	for (EnemyBeam* enemybeam : enemybeamTable_) {
 	    	enemybeam->Update();
 	}
+
 	if (playerTimer_ > 0) {
 		playerTimer_ -= 1;
 	}
@@ -127,6 +128,11 @@ int GamePlay::Update() {
 	if (playerLife_ <= 0) {
 		audio_->StopWave(voiceHandleBGM_);
 		return 2;
+	}
+	if (gameScore_ >= 6000) {
+		audio_->StopWave(voiceHandleBGM_);
+
+		return 3;
 	}
 	    return 0;
 
@@ -156,7 +162,7 @@ void GamePlay::Draw3D() {
 }
 
 void GamePlay::Draw2DNear() {
-	
+
 	DrawScore();
 	debugText_->DrawAll();
 }
@@ -177,7 +183,7 @@ void GamePlay::Start() {
 	enemybeam->Start();
 	}
 	// BGMを再生
-	voiceHandleBGM_ = audio_->PlayWave(soundDatahandleBGM_, true);
+	//voiceHandleBGM_ = audio_->PlayWave(soundDatahandleBGM_, true);
 }
 
 void GamePlay::Shot() {
@@ -242,7 +248,7 @@ void GamePlay::CollisionPlayerEnemy() {
 		float dz = abs(player_->GetZ() - enemy->GetZ());
 		float dy = abs(player_->GetY() - enemy->GetY());
 		if (dx < 1 && dz < 1 && dy < 1) {
-			audio_->PlayWave(soundDateHandlePlayerSE_);
+			//audio_->PlayWave(soundDateHandlePlayerSE_);
 			// 衝突処理
 			enemy->Hit();
 			playerLife_ -= 1;
@@ -262,7 +268,7 @@ void GamePlay::CollisionBeamEnemy() {
 			if (dx1 < 1 && dz1 < 1 && dy1 < 1) {
 				enemy->Hit();
 				beam->Hit();
-				audio_->PlayWave(soundDateHandleEnemySE_);
+			//	audio_->PlayWave(soundDateHandleEnemySE_);
 				gameScore_ += 100;
 			}
 		}

@@ -11,6 +11,8 @@
 #include "GamePlay.h"
 #include "Title.h"
 #include "GameOver.h"
+#include "GameClear.h"
+#include "Option.h"
 
     /// <summary>
 /// ゲームシーン
@@ -56,7 +58,8 @@ private:
 	Title* title_ = nullptr; // タイトル
 	GameOver* gameOver_ = nullptr; 
 	GamePlay* gamePlay_ = nullptr;
-	
+	GameClear* gameclear_ = nullptr;
+	Option* option_ = nullptr;
 	/// <summary>
 	/// ゲームシーン用
 	/// </summary>

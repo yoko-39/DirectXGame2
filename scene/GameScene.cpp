@@ -12,6 +12,8 @@ GameScene::~GameScene() {
 	delete gamePlay_;
 	delete title_;
 	delete gameOver_;
+	delete gameclear_;
+	delete option_;
 }
 
 void GameScene::Initialize() {
@@ -25,7 +27,10 @@ void GameScene::Initialize() {
 	title_->Initialize();
 	gameOver_ = new GameOver();
 	gameOver_->Initialize(viewProjection_);
-	
+	gameclear_ = new GameClear();
+	gameclear_->Initialize(viewProjection_);
+	option_ = new Option();
+	option_->Initialize(viewProjection_);
 	
 }
 
@@ -39,10 +44,24 @@ void GameScene::Update() {
 		break;
 	case 1:
 		sceneMode_ = title_->Update();
+		if (input_->TriggerKey(DIK_R)) {
+			sceneMode_ = 4;
+		}
 		break;
 	case 2:
 		gameOver_->Update();
 		if (input_->TriggerKey(DIK_RETURN)) {
+			sceneMode_ = 1;
+		}
+		break;
+	case 3:
+		gameclear_->Update();
+		if (input_->TriggerKey(DIK_RETURN)) {
+			sceneMode_ = 1;
+		}
+		break;
+	case 4:
+		if (input_->TriggerKey(DIK_Q)) {
 			sceneMode_ = 1;
 		}
 		break;
@@ -51,7 +70,6 @@ void GameScene::Update() {
 	if (oldSceneMode != sceneMode_) {
 		switch (sceneMode_) {
 		case 0:
-		
 			gamePlay_->Start();
 			break;
 		case 1:
@@ -61,7 +79,13 @@ void GameScene::Update() {
 		case 2:
 			gameOver_->Start();
 			break;
+     	case 3:
+			gameOver_->Start();
+			break;
+	    case 4:
+			break;
 		}
+
 	}
 
 }
@@ -86,6 +110,9 @@ void GameScene::Draw() {
 	case 2:
 		gamePlay_->Draw2DFar();
 		break;
+	case 3:
+		gamePlay_->Draw2DFar();
+		break;
 	}
 
 	// スプライト描画後処理
@@ -108,6 +135,9 @@ void GameScene::Draw() {
 	case 2:
 		gamePlay_->Draw3D();
 		break;
+	case 3:
+		gamePlay_->Draw3D();
+		break;
 	}
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();
@@ -126,12 +156,19 @@ void GameScene::Draw() {
 		break;
 	case 1:
 		title_->Draw2DNear();
+	
 		break;
     case 2:
 		gamePlay_->Draw2DNear(); // ゲームプレイ
 		gameOver_->Draw2DNear();
 		break;
-		
+	case 3:
+		gamePlay_->Draw2DNear();
+		gameclear_->Draw2DNear();
+		break;
+	case 4:
+		option_->Draw2DNear();
+		break;
 	}
 
 	// スプライト描画後処理

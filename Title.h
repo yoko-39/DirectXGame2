@@ -34,6 +34,8 @@ public:
 	//2D前景描画
 	void Draw2DNear();
 
+	
+
 	private:
 
 	// タイトル
@@ -45,6 +47,7 @@ public:
 	int gameTimer_ = 0;
 	// インプットクラス
 	Input* input_ = nullptr;
+	
 	///サウンド
 	Audio* audio_ = nullptr;
 	uint32_t soundDatahandleBGM_ = 0;

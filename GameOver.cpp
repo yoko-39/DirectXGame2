@@ -10,10 +10,10 @@ GameOver::~GameOver() {
 
 void GameOver::Initialize(ViewProjection viewProjection) {
 	// ゲームオーバー
-	textureHandleOver_ = TextureManager::Load("gameover.png");
+	textureHandleOver_ = TextureManager::Load("source/gameover.png");
 	spriteOver_ = Sprite::Create(textureHandleOver_, {0, 0});
 	// エンター
-	textureHandleEnter_ = TextureManager::Load("Enter.png");
+	textureHandleEnter_ = TextureManager::Load("source/Enter.png");
 	spriteEnter_ = Sprite::Create(textureHandleEnter_, {400, 400});
 	//サウンド
 	audio_ = Audio::GetInstance();
@@ -36,7 +36,7 @@ void GameOver::Draw2DNear() {
 
 void GameOver::Start() {
 	// BGMを再生
-	voiceHandleBGM_ = audio_->PlayWave(soundDatahandleBGM_, true);
+	//voiceHandleBGM_ = audio_->PlayWave(soundDatahandleBGM_, true);
 }
 
 void GameOver::Stop() { 
